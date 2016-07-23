@@ -57,23 +57,7 @@ class SQLObject
 
   def self.deduce_table_name #make private
     model_name = self.to_s
-    capitals = ("A".."Z").to_a
-    capital_indices = []
-
-    model_name.length.times do |letterIdx|
-      capital_indices << letterIdx if capitals.include?(model_name[letterIdx])
-    end
-
-    capital_indices << model_name.length
-
-    words = []
-    capital_indices.each_with_index do |capitalIdx, i|
-      next if i === capital_indices.length - 1
-      nextCapitalIdx = capital_indices[i + 1]
-      words << model_name[capitalIdx...nextCapitalIdx].downcase
-    end
-
-    "#{words.join('_')}s"
+    model_name.underscore.pluralize
   end
 
   def self.all
